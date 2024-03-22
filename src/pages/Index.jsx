@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, Heading, Image, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { FaDownload, FaUpload } from "react-icons/fa";
+import DropZone from "../components/DropZone";
 
 const Index = () => {
   const [imageFiles, setImageFiles] = useState([]);
@@ -8,8 +9,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleFileChange = (event) => {
-    setImageFiles([...event.target.files]);
+  const handleFileChange = (acceptedFiles) => {
+    setImageFiles(acceptedFiles);
   };
 
   const handleUpload = async () => {
@@ -21,7 +22,7 @@ const Index = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Replace this with your actual image processing and compilation logic
-      const compiledImageUrl = 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjb21waWxlZCUyMHBpeGVsJTIwYXJ0JTIwaW1hZ2VzfGVufDB8fHx8MTcxMTA3NzczNHww&ixlib=rb-4.0.3&q=80&w=1080';
+      const compiledImageUrl = "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjb21waWxlZCUyMHBpeGVsJTIwYXJ0JTIwaW1hZ2VzfGVufDB8fHx8MTcxMTA3NzczNHww&ixlib=rb-4.0.3&q=80&w=1080";
       setCompiledImage(compiledImageUrl);
     } catch (error) {
       setError("An error occurred during image compilation.");
@@ -42,7 +43,7 @@ const Index = () => {
       </Heading>
 
       <VStack spacing={4} alignItems="stretch">
-        <Input type="file" multiple accept="image/*" onChange={handleFileChange} />
+        <DropZone onDrop={handleFileChange} />
 
         <Button leftIcon={<FaUpload />} colorScheme="blue" onClick={handleUpload} isLoading={isLoading} loadingText="Compiling...">
           Compile Images
