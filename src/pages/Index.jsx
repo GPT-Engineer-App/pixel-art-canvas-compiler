@@ -6,27 +6,9 @@ import ImageProcessor from "../components/ImageProcessor";
 
 const Index = () => {
   const [imageFiles, setImageFiles] = useState([]);
-  const [compiledImage, setCompiledImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleFileChange = (acceptedFiles) => {
     setImageFiles(acceptedFiles);
-  };
-
-  const handleUpload = () => {
-    setIsLoading(true);
-    setError(null);
-  };
-
-  const handleProcessingComplete = (compiledImageUrl) => {
-    setCompiledImage(compiledImageUrl);
-    setIsLoading(false);
-  };
-
-  const handleProcessingError = (errorMessage) => {
-    setError(errorMessage);
-    setIsLoading(false);
   };
 
   const handleDownload = () => {
@@ -42,20 +24,11 @@ const Index = () => {
       <VStack spacing={4} alignItems="stretch">
         <DropZone onDrop={handleFileChange} />
 
-        <Button leftIcon={<FaUpload />} colorScheme="blue" onClick={handleUpload} isLoading={isLoading} loadingText="Compiling...">
+        <Button leftIcon={<FaUpload />} colorScheme="blue">
           Compile Images
         </Button>
 
-        {error && <Text color="red.500">{error}</Text>}
-
-        {compiledImage && (
-          <Box>
-            <Image src={compiledImage} alt="Compiled Pixel Art" />
-            <Button leftIcon={<FaDownload />} colorScheme="green" onClick={handleDownload} marginTop={4}>
-              Download Compiled Image
-            </Button>
-          </Box>
-        )}
+        
       </VStack>
 
       <Flex wrap="wrap" justifyContent="center" marginTop={8}>
@@ -64,7 +37,7 @@ const Index = () => {
         ))}
       </Flex>
 
-      <ImageProcessor imageFiles={imageFiles} onProcessingComplete={handleProcessingComplete} onError={handleProcessingError} />
+      <ImageProcessor imageFiles={imageFiles} />
     </Box>
   );
 };

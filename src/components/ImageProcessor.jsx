@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ImageProcessor = ({ imageFiles, onProcessingComplete, onError }) => {
+const ImageProcessor = ({ imageFiles }) => {
+  const [images, setImages] = useState([]);
+  const [processingStatus, setProcessingStatus] = useState("idle");
+  const [error, setError] = useState(null);
+  const [compiledImage, setCompiledImage] = useState(null);
   const processImages = async () => {
     try {
+      setImages(imageFiles);
+      setProcessingStatus("processing");
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      const compiledImageUrl = "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjb21waWxlZCUyMHBpeGVsJTIwYXJ0JTIwaW1hZ2VzfGVufDB8fHx8MTcxMTA3NzczNHww&ixlib=rb-4.0.3&q=80&w=1080";
-      onProcessingComplete(compiledImageUrl);
+      setProcessingStatus("completed");
+      setCompiledImage("compiled_image_url");
     } catch (error) {
-      onError("An error occurred during image compilation.");
+      setProcessingStatus("error");
+      setError("An error occurred during image processing.");
     }
   };
 
