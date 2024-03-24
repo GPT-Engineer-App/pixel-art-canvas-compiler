@@ -5,12 +5,21 @@ const ImageProcessor = ({ imageFiles }) => {
   const [processingStatus, setProcessingStatus] = useState("idle");
   const [error, setError] = useState(null);
   const [compiledImage, setCompiledImage] = useState(null);
+
+  const analyzeImage = async (imageFile) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  };
+
   const processImages = async () => {
     try {
       setImages(imageFiles);
       setProcessingStatus("processing");
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await Promise.all(imageFiles.map(analyzeImage));
 
       setProcessingStatus("completed");
       setCompiledImage("compiled_image_url");
