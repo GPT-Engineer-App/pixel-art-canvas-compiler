@@ -27,8 +27,6 @@ const Index = () => {
         <Button leftIcon={<FaUpload />} colorScheme="blue">
           Compile Images
         </Button>
-
-        
       </VStack>
 
       <Flex wrap="wrap" justifyContent="center" marginTop={8}>
@@ -37,7 +35,7 @@ const Index = () => {
         ))}
       </Flex>
 
-      <ImageProcessor imageFiles={imageFiles} />
+      <ImageProcessor imageFiles={imageFiles} onProcessingComplete={(url) => console.log("Compiled image URL:", url)} />
     </Box>
   );
 };
