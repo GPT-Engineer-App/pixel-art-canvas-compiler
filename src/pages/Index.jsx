@@ -8,7 +8,13 @@ const Index = () => {
   const [imageFiles, setImageFiles] = useState([]);
 
   const handleFileChange = (acceptedFiles) => {
-    setImageFiles(acceptedFiles);
+    const pngJpegFiles = acceptedFiles.filter((file) => file.type === "image/png" || file.type === "image/jpeg");
+
+    if (pngJpegFiles.length !== acceptedFiles.length) {
+      alert("Only PNG and JPEG files are accepted.");
+    }
+
+    setImageFiles(pngJpegFiles);
   };
 
   const handleDownload = () => {

@@ -18,7 +18,7 @@ const ImageProcessor = ({ imageFiles, onProcessingComplete }) => {
   const simulateImageCompilation = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve("simulated_compiled_image_url");
+        resolve("simulated_compiled_image.png");
       }, 2000);
     });
   };
