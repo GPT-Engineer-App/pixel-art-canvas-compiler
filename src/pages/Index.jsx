@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Flex, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { FaDownload, FaUpload } from "react-icons/fa";
 import DropZone from "../components/DropZone";
+import ImageProcessor from "../components/ImageProcessor";
 
 const Index = () => {
   const [imageFiles, setImageFiles] = useState([]);
@@ -13,26 +14,22 @@ const Index = () => {
     setImageFiles(acceptedFiles);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = () => {
     setIsLoading(true);
     setError(null);
+  };
 
-    try {
-      // Simulating image processing and compilation
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+  const handleProcessingComplete = (compiledImageUrl) => {
+    setCompiledImage(compiledImageUrl);
+    setIsLoading(false);
+  };
 
-      // Replace this with your actual image processing and compilation logic
-      const compiledImageUrl = "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MDcxMzJ8MHwxfHNlYXJjaHwxfHxjb21waWxlZCUyMHBpeGVsJTIwYXJ0JTIwaW1hZ2VzfGVufDB8fHx8MTcxMTA3NzczNHww&ixlib=rb-4.0.3&q=80&w=1080";
-      setCompiledImage(compiledImageUrl);
-    } catch (error) {
-      setError("An error occurred during image compilation.");
-    }
-
+  const handleProcessingError = (errorMessage) => {
+    setError(errorMessage);
     setIsLoading(false);
   };
 
   const handleDownload = () => {
-    // Implement the logic to download the compiled image or ZIP file
     console.log("Downloading compiled image...");
   };
 
@@ -66,6 +63,8 @@ const Index = () => {
           <Image key={index} src={URL.createObjectURL(file)} alt={`Uploaded ${index + 1}`} boxSize="64px" objectFit="cover" margin={1} />
         ))}
       </Flex>
+
+      <ImageProcessor imageFiles={imageFiles} onProcessingComplete={handleProcessingComplete} onError={handleProcessingError} />
     </Box>
   );
 };
